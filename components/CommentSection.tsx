@@ -21,7 +21,7 @@ const CommentSection = ({slug}:any) => {
             {' '}
             Comments
           </h3>
-            {comments.map((comment:object, index) => (
+            {comments.map((comment:any, index) => (
               <div key={index} className="border-b border-gray-100 mb-4 pb-4">
                 <p>
                   <span className="font-semibold">{comment.name}</span>

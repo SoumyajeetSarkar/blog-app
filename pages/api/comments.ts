@@ -3,7 +3,7 @@ Any file inside the folder pages/api is mapped to /api/* and will be treated as 
 import { GraphQLClient, gql } from "graphql-request";
 const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || "";
 
-export default async function sendComments(req:Request, res:Response) {
+export default async function sendComments(req:Request, res:any) {
   const graphQLClient = new GraphQLClient(graphqlAPI, {
     headers: {
       authorization: `Bearer ${process.env.GRAPHCMS_TOKEN}`,
