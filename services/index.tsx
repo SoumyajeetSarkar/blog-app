@@ -192,3 +192,40 @@ export const getSearchedPosts = async (search: string) => {
   const results = await request(graphQlApi, query, { search });
   return results.postsConnection.edges;
 };
+
+export const getCategoryPost = async (slug:any) => {
+  const query = gql`
+    query GetCategoryPost($slug: String!) {
+      postsConnection(where: {categories_some: {url: $slug}}) {
+        edges {
+          cursor
+          node {
+            author {
+              bio
+              name
+              id
+              photo {
+                url
+              }
+            }
+            createdAt
+            postUrl
+            title
+            excerpt
+            contentImage {
+              url
+            }
+            categories {
+              name
+              url
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const result = await request(graphQlApi, query, { slug });
+
+  return result.postsConnection.edges;
+};

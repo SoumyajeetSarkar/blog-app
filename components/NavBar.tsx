@@ -21,7 +21,7 @@ const NavBar = () => {
         </div>
         <div className="hidden md:float-left md:contents">
           {categories.map((category:any) => (
-            <Link key={category.url} href={`/category/${category.url}`}>
+            <Link key={category.url} href={`/categories/${category.url}`}>
               <span className="md:float-right mt-2 align-middle text-white ml-4 font-semibold cursor-pointer">
                 #{category.name}
               </span>

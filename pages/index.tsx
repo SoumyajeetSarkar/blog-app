@@ -8,9 +8,8 @@ import {IoMdClose} from 'react-icons/io'
 export default function Home({ posts }: any) {
   const [searchedPosts,setSearchedPosts] = useState(posts);
   const [search,setSearch] = useState(''); 
-  const onSearchHandler=async(e)=>{
+  const onSearchHandler=async()=>{
     setSearchedPosts([]);
-    e.preventDefault();
     await getSearchedPosts(search).then((result)=>setSearchedPosts(result));
   }
   return (
