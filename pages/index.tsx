@@ -37,9 +37,10 @@ export default function Home({ posts }: any) {
           <div className="lg:sticky relative top-8">
             <PostWidget />
             <Categories />
-          </div>
-          <div className="text-gray-500 text-lg text-center">Powered by NextJs, GraphQl and Tailwind</div>
+            <div className="text-gray-500 text-lg text-center">Powered by NextJs, GraphQl and Tailwind</div>
           <div className="text-gray-500 text-lg text-center">By <a className="transition duration-500 hover:text-black cursor-pointer">Soumyajeet Sarkar</a></div>
+          </div>
+          
         </div>
         {/* grid  component end */}
       </div>

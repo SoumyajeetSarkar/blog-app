@@ -22,6 +22,8 @@ const CategoryPost = ({ posts }: any) => {
         <div className="col-span-1 lg:col-span-4">
           <div className="relative lg:sticky top-8">
             <Categories />
+            <div className="text-gray-500 text-lg text-center">Powered by NextJs, GraphQl and Tailwind</div>
+          <div className="text-gray-500 text-lg text-center">By <a className="transition duration-500 hover:text-black cursor-pointer">Soumyajeet Sarkar</a></div>
           </div>
         </div>
       </div>
