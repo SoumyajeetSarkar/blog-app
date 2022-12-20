@@ -3,48 +3,78 @@ import { FiSend } from "react-icons/fi";
 import { submitComment } from "../services";
 const CommentForm = ({ slug }: any) => {
   const [error, setError] = useState(false);
-  const [comment,setComment] = useState('');
   const [localStorage,setLocalStorage] = useState({});
+  const [formData, setFormData] = useState({ name: '', email: '', comment: '', storeData: false });
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const commentRef = useRef() as any;
-  const nameRef = useRef() as any;
-  const emailRef = useRef() as any;
-  const storeDataRef = useRef() as any;
 
   useEffect(() => {
-    nameRef.current.value = window.localStorage.getItem('name');
-    emailRef.current.value = window.localStorage.getItem('email');
+    setLocalStorage(window.localStorage);
+    const initalFormData:any = {
+      name: window.localStorage.getItem('name'),
+      email: window.localStorage.getItem('email'),
+      storeData: window.localStorage.getItem('name') || window.localStorage.getItem('email'),
+      comment: ''
+    };
+    setFormData(initalFormData);
   }, [])
   
+  const onInputChange = (e:any) => {
+    const { target } = e;
+    if (target.type === 'checkbox') {
+      setFormData((prevState) => ({
+        ...prevState,
+        [target.name]: target.checked,
+      }));
+    } else {
+      setFormData((prevState) => ({
+        ...prevState,
+        [target.name]: target.value,
+      }));
+    }
+  };
 
   const handleCommentSubmission = () => {
     setError(false);
-    const { value: comment } = commentRef.current;
-    const { value: name } = nameRef.current;
-    const { value: email } = emailRef.current;
-    const { checked: storeData } = storeDataRef.current;
-    if (!comment || !name || !email) {
+    const { name, email, comment, storeData } = formData;
+    if (!name || !email || !comment) {
       setError(true);
       return;
     }
-    const commentObj = { name, email, comment, slug };
+    const commentObj = {
+      name,
+      email,
+      comment,
+      slug,
+    };
+
     if (storeData) {
-      window.localStorage.setItem("email", email);
-      window.localStorage.setItem("name", name);
-      setLocalStorage({email:email,name:name});
+      window.localStorage.setItem('name', name);
+      window.localStorage.setItem('email', email);
     } else {
-      window.localStorage.removeItem("name");
-      window.localStorage.removeItem("email");
+      window.localStorage.removeItem('name');
+      window.localStorage.removeItem('email');
     }
 
-    submitComment(commentObj).then((res) => {
-      setShowSuccessMessage(true);
-      setTimeout(() => {
-        setShowSuccessMessage(false);
-      }, 3000);
-      setComment('');
-    });
+    submitComment(commentObj)
+      .then((res) => {
+        if (res.createComment) {
+          if (!storeData) {
+            formData.name = '';
+            formData.email = '';
+          }
+          formData.comment = '';
+          setFormData((prevState) => ({
+            ...prevState,
+            ...formData,
+          }));
+          setShowSuccessMessage(true);
+          setTimeout(() => {
+            setShowSuccessMessage(false);
+          }, 3000);
+        }
+      });
   };
+
   return (
     <div className="bg-white shadow-lg rounded-lg p-8 pb-12 mb-8">
       <h3 className="text-xl mb-8 font-semibold border-b pb-4">
@@ -55,9 +85,8 @@ const CommentForm = ({ slug }: any) => {
           className="p-4 outline-none w-full rounded-lg h-40 focus:ring-2 focus:ring-gray-200 bg-gray-100 text-gray-700"
           name="comment"
           placeholder="Comment"
-          ref={commentRef}
-          value={comment}
-          onChange={(e)=>setComment(e.target.value)}
+          value={formData.comment}
+          onChange={onInputChange}
         />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
@@ -66,27 +95,27 @@ const CommentForm = ({ slug }: any) => {
           className="py-2 px-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-gray-100 text-gray-700"
           placeholder="Name"
           name="name"
-          ref={nameRef}
-          value={localStorage?.name}
+          value={formData.name}
+          onChange={onInputChange}
         />
         <input
           type="email"
           className="py-2 px-4 outline-none w-full rounded-lg focus:ring-2 focus:ring-gray-200 bg-gray-100 text-gray-700"
           placeholder="Email"
           name="email"
-          ref={emailRef}
-          value={localStorage?.email}
+          value={formData.email}
+          onChange={onInputChange}
         />
       </div>
       <div className="grid grid-cols-1 gap-4 mb-4">
         <div>
           <input
-            onChange={() => {}}
+            onChange={onInputChange}
             type="checkbox"
             id="storeData"
-            ref={storeDataRef}
             name="storeData"
             className="cursor-pointer"
+            checked={formData.storeData}
           />
           <label className="text-gray-500 cursor-pointer" htmlFor="storeData">
             {" "}
