@@ -1,11 +1,15 @@
 
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Categories, PostCard, PostWidget } from "../components";
 import { getPosts, getSearchedPosts } from "../services";
 import {BsSearch} from  'react-icons/bs';
 import {IoMdClose} from 'react-icons/io'
-export default function Home({ posts }: any) {
+export default function Home() {
+  const [posts,setPosts] = useState([]);
+  useEffect(()=>{
+    getPosts().then((result)=>setPosts(result));
+  })
   const [searchedPosts,setSearchedPosts] = useState(posts);
   const [search,setSearch] = useState(''); 
   const onSearchHandler=async()=>{
@@ -48,10 +52,10 @@ export default function Home({ posts }: any) {
   );
 }
 
-export async function getStaticProps() {
-  const posts = (await getPosts()) || [];
+// export async function getStaticProps() {
+//   const posts = (await getPosts()) || [];
 
-  return {
-    props: { posts },
-  };
-}
+//   return {
+//     props: { posts },
+//   };
+// }
