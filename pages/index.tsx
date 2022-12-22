@@ -6,14 +6,17 @@ import { getPosts, getSearchedPosts } from "../services";
 import {BsSearch} from  'react-icons/bs';
 import {IoMdClose} from 'react-icons/io'
 export default function Home() {
+
   const [posts,setPosts] = useState([]);
   useEffect(()=>{
     getPosts().then((result)=>setPosts(result));
-  })
-  const [searchedPosts,setSearchedPosts] = useState(posts);
+  },[])
+
+  const [searchedPosts,setSearchedPosts] = useState(null);
   const [search,setSearch] = useState(''); 
+
   const onSearchHandler=async()=>{
-    setSearchedPosts([]);
+    setSearchedPosts(null);
     await getSearchedPosts(search).then((result)=>setSearchedPosts(result));
   }
   return (
@@ -27,11 +30,11 @@ export default function Home() {
         {/*posts */}
         <div className="lg:col-span-8 col-span-1">
           <div className="mb-4 inline-flex items-center object-center w-full rounded-lg bg-gray-100 focus:ring-2 focus:ring-gray-200">
-          <input type="text" placeholder="Search" value={search} onChange={(e)=>setSearch(e.target.value)} className="flex grow py-2 px-4 outline-none rounded-lg bg-gray-100 text-gray-700"/>
-          {search && <button className="flex mx-2 h-fit w-fit text-black" onClick={()=>setSearch('')}><IoMdClose size={30}/></button>}
+          <input type="text" placeholder="Search" value={search} onChange={(e)=>{setSearch(e.target.value)}} className="flex grow py-2 px-4 outline-none rounded-lg bg-gray-100 text-gray-700"/>
+          {search && <button className="flex mx-2 h-fit w-fit text-black" onClick={()=>{setSearch(''), setSearchedPosts(null)}}><IoMdClose size={30}/></button>}
           <button className="flex mx-2 h-fit w-fit text-black" onClick={onSearchHandler}><BsSearch size={30}/></button>
           </div>
-          {(search?searchedPosts:posts).map((post: any) => (
+          {(searchedPosts?searchedPosts:posts).map((post: any) => (
             <PostCard post={post.node} key={post.title} />
           ))}
         </div>
