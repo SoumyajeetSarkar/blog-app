@@ -1,3 +1,15 @@
+# About
+I created a blog app with Next and GraphCMS. This was my first time experimenting with Next and I have a lot to learn. The routing system which is folder based in next is very interesting. GraphCMS provided a very stable and dynamic service for fetching queries and updating content. 
+This is a live picture of how the website looks , also check it out on this link: https://blog-app-soumyajeet.vercel.app/
+
+
+
+![blog-app](https://user-images.githubusercontent.com/93812988/209064659-adbb0c92-8098-4493-907a-32cf3b56fe1a.JPG)
+
+
+
+
+
 # Next.js + Tailwind CSS Example
 
 This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.2)](https://tailwindcss.com/blog/tailwindcss-v3-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
